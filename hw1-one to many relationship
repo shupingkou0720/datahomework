@@ -1,0 +1,53 @@
+#one to many relationship#
+#1#
+SELECT c.customerName, e.firstName, e.lastName
+FROM classicmodels.customers c, classicmodels.employees e
+where c.salesRepEmployeeNumber=e.employeeNumber; 
+
+#2#
+SELECT sum(cp.amount)
+FROM classicmodels.payments p, classicmodels.customers c
+having c.customerName ='Atelier graphique' and c.customerNumber=p.customerNumber
+;
+#3#
+SELECT paymentDate, sum(amount)
+FROM classicmodels.payments
+group by paymentDate;
+#4#
+SELECT p.productName
+FROM classicmodels.products p
+where p.productCode not in 
+	  (select distinct o.productCode 
+      from classicmodels.orderdetails o);
+#5#
+SELECT customerName, SUM(amount)
+FROM classicmodels.payments, classicmodels.customers
+WHERE classicmodels.payments.customerNumber = classicmodels.customers.customerNumber
+GROUP BY customerName;
+#6#
+select count(orderNumber) as total
+from classicmodels.orders, classicmodels.customers
+where classicmodels.orders.customerNumber=classicmodels.customers.customerNumber
+and classicmodels.customers.customerName='Herkku Gifts'
+group by classicmodels.customers.customerName;
+#7#
+SELECT e.lastName, e.firstName
+FROM classicmodels.offices o, classicmodels.employees e
+where o.officeCode=e.officeCode
+and o.city='Boston';
+#8#
+SELECT sum(p.amount) as totalamount, c.customerName
+FROM classicmodels.payments p, classicmodels.customers c
+where p.customerNumber=c.customerNumber
+group by p.customerNumber
+order by sum(p.amount) desc;
+#9#
+SELECT o_2.quantityOrdered*o_2.priceEach as amount
+FROM classicmodels.orders o_1, classicmodels.orderdetails o_2
+where o_1.status='On Hold'
+and o_1.orderNumber=o_2.orderNumber;
+#10#
+SELECT count(o.orderNumber),c.customerName
+FROM classicmodels.orders o, classicmodels.customers c
+where o.status='On Hold' and o.customerNumber=c.customerNumber
+group by o.customerNumber;
