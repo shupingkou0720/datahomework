@@ -1,0 +1,69 @@
+#single entity
+#1# 
+SELECT * FROM classicmodels.offices
+order by country, state, city;
+
+#2# 
+SELECT COUNT(DISTINCT employeeNumber) AS num
+FROM classicmodels.employees;
+
+#3#
+SELECT SUM(amount) AS sum
+FROM classicmodels.payments;
+
+#4#
+SELECT * FROM classicmodels.productlines
+where productLine LIKE '%Cars%';
+
+#5#
+SELECT SUM(amount) AS sum
+FROM classicmodels.payments
+where paymentDate in ('2004-10-28');
+
+#6#
+SELECT *
+FROM classicmodels.payments
+where amount >=100000;
+
+#7#
+SELECT * FROM classicmodels.products
+order by productLine;
+
+#8#
+SELECT COUNT(DISTINCT productCode) AS sum, productLine
+FROM classicmodels.products
+group by productLine
+order by productLine;
+
+#9#
+SELECT min(amount) AS min 
+FROM classicmodels.payments;
+
+#10#
+SELECT * 
+FROM classicmodels.payments
+where amount>= 2*AVG(amount);
+
+#11#
+SELECT avg(MSRP/buyPrice)
+FROM classicmodels.products;
+
+#12#
+SELECT COUNT(distinct productName) as Amount
+FROM classicmodels.products;
+
+#13#
+SELECT customerName, city
+FROM classicmodels.customers
+where salesRepEmployeeNumber IS NULL;
+
+#14#
+SELECT concat(firstName, ',', lastName) AS fullNames 
+FROM classicmodels.employees
+where jobTitle LIKE 'VP%' OR jobTitle LIKE '%Manager';
+
+#15#
+SELECT orderNumber
+FROM classicmodels.orderdetails
+where sum(quantityOrdered * priceEach) >=5000
+GROUP BY orderNumber;
