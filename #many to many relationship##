@@ -1,0 +1,57 @@
+#many to many relationship##
+#1#
+SELECT p.productName, o_2.orderDate
+from classicmodels.products p
+join classicmodels.orderdetails o_1
+on p.productCode=o_1.productCode
+join classicmodels.orders o_2
+on o_1.orderNumber=o_2.orderNumber
+order by o_2.orderDate;
+#2#
+SELECT orderDate 
+FROM classicmodels.orders o1
+JOIN classicmodels.orderdetails o2
+on o1.orderNumber=o2.orderNumber
+JOIN classicmodels.products p
+on o2.productCode=p.productCode
+where p.productName= '1940 Ford Pickup Truck'
+order by orderDate Desc;
+#3#
+SELECT o2.orderNumber, c.customerName
+FROM 
+     (select o2.orderNumber, sum(quantityOrdered*priceEach) as sumpayments
+     from classicmodels.orderdetails o2
+     group by o2.orderNumber) as newtable 
+left Join classicmodels.orders o1
+on newtable.orderNumebr=o1.orderNumber
+left join classicmodels.customers c
+on o1.customerNumber=c.customerNumber
+where newtable.sumpayments>=5000;
+
+#4#
+
+#5#
+SELECT distinct p.productName
+FROM classicmodels.products p 
+right join classicmodels.orderdetails
+Using(productCode)
+where priceEach > 0.8 * MSRP;
+
+#6#
+
+#7#
+Select o2.productCode, p.productName 
+from classicmodels.orderdetails o2
+join classicmodels.products p
+using(productCode)
+join classicmodels.orders o1
+using(orderNumber)
+where o1.orderDate = 'Monday';
+
+#8#
+select sum(o2.quantityOrdered) as 'OnHoldQuantity', od.orderNumber 
+from classicmodels.orderdetails o2
+join classicmodels.orders o1
+using(orderNumber)
+where `status`= 'On Hold'
+group by o2.orderNumber;
